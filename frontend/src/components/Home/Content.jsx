@@ -12,10 +12,11 @@ const ContentContainer = styled.div`
   }
   .title {
     font-size: 7vh;
+    line-height: 120%;
   }
   .sub-title {
     font-size: 4vh;
-    margin-bottom: 2vh;
+    margin-bottom: 4vh;
   }
   .text-underline {
     border-bottom: 0.5vh solid rgb(20, 135, 226);
@@ -42,7 +43,7 @@ const ContentContainer = styled.div`
     color: white;
     padding: 0.7vh 3vh;
     font-size: 3.5vh;
-    margin-top: 3vh;
+    margin-top: 5vh;
     border-radius: 0 4vh 4vh 0;
     outline: none;
   }
