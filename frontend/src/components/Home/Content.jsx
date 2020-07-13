@@ -40,7 +40,7 @@ const ContentContainer = styled.div`
     background-image: linear-gradient(to right, rgb(74, 175, 255), rgb(20, 135, 226));
     border: none;
     color: white;
-    padding: 0.7vh 4vh;
+    padding: 0.7vh 3vh;
     font-size: 3.5vh;
     margin-top: 3vh;
     border-radius: 0 4vh 4vh 0;
