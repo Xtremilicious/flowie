@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
+import { FaSignInAlt } from "react-icons/fa";
 
 const ContentContainer = styled.div`
   .main-container {
@@ -28,6 +29,13 @@ const ContentContainer = styled.div`
     justify-content: center;
     flex-direction: column;
   }
+  .input-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 5vh;
+    z-index: -10;
+  }
   .input-box {
     border-radius: 4vh 0 0 4vh;
     border: none;
@@ -44,9 +52,12 @@ const ContentContainer = styled.div`
     color: white;
     padding: 0.7vh 3vh;
     font-size: 3.5vh;
-    margin-top: 5vh;
     border-radius: 0 4vh 4vh 0;
     outline: none;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    z-index: 1;
   }
   .art-pic {
     height: 95vh;
@@ -75,8 +86,8 @@ export default function Content() {
             For a <span className="text-underline">better workflow</span>
           </div>
           <div className="title">The Ultimate Progress Tracker for MLH Fellows</div>
-          <div className="">
-            <form onSubmit={() => handleSubmit()}>
+          <div>
+            <form onSubmit={() => handleSubmit()} className="input-container">
               <input
                 type="text"
                 className="input-box"
@@ -84,8 +95,13 @@ export default function Content() {
                 value={username}
                 onChange={handleChange}
               />
-              <button className="btn-username" type="submit">
-                Login
+              <button
+                className="btn-username"
+                type="submit"
+                disabled={username.length > 0 ? false : true}
+              >
+                <FaSignInAlt />
+                <span className="ml-2">Login</span>
               </button>
             </form>
           </div>
