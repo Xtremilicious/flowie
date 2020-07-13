@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 const ContentContainer = styled.div`
@@ -15,7 +15,7 @@ const ContentContainer = styled.div`
   }
   .sub-title {
     font-size: 4vh;
-    margin-bottom: 1vh;
+    margin-bottom: 2vh;
   }
   .text-underline {
     border-bottom: 0.5vh solid rgb(20, 135, 226);
@@ -26,14 +26,24 @@ const ContentContainer = styled.div`
     justify-content: center;
     flex-direction: column;
   }
+  .input-box {
+    border-radius: 4vh 0 0 4vh;
+    border: none;
+    padding: calc(0.7vh - 0.3px) 4vh;
+    font-size: 3.5vh;
+    background: #fafafa;
+    border: 0.3px solid #d8d8d8;
+    outline: none;
+    width: 15vw;
+  }
   .btn-username {
     background-image: linear-gradient(to right, rgb(74, 175, 255), rgb(20, 135, 226));
     border: none;
     color: white;
     padding: 0.7vh 4vh;
     font-size: 3.5vh;
-    margin-top: 2vh;
-    border-radius: 4vh;
+    margin-top: 3vh;
+    border-radius: 0 4vh 4vh 0;
     outline: none;
   }
   .art-pic {
@@ -42,6 +52,16 @@ const ContentContainer = styled.div`
 `;
 
 export default function Content() {
+  const [username, setUsername] = useState("");
+
+  const handleChange = (event) => {
+    setUsername(event.target.value);
+  };
+
+  const handleSubmit = (event) => {
+    alert("A name was submitted: " + username);
+    event.preventDefault();
+  };
   return (
     <ContentContainer>
       <div className="main-container">
@@ -51,7 +71,18 @@ export default function Content() {
           </div>
           <div className="title">The Ultimate Progress Tracker for MLH Fellows</div>
           <div className="">
-            <button className="btn-username">Try Now!</button>
+            <form onSubmit={() => handleSubmit()}>
+              <input
+                type="text"
+                className="input-box"
+                placeholder="@MLHFellow"
+                value={username}
+                onChange={handleChange}
+              />
+              <button className="btn-username" type="submit">
+                Login
+              </button>
+            </form>
           </div>
         </div>
         <div className="art">
