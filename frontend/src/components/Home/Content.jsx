@@ -47,7 +47,8 @@ const ContentContainer = styled.div`
     outline: none;
   }
   .art-pic {
-    height: 85vh;
+    height: 95vh;
+    margin-top: -15vh;
   }
 `;
 
