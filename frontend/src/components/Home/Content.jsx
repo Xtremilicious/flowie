@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { useHistory } from "react-router-dom";
 
 const ContentContainer = styled.div`
   .main-container {
@@ -54,6 +55,8 @@ const ContentContainer = styled.div`
 `;
 
 export default function Content() {
+  const history = useHistory();
+
   const [username, setUsername] = useState("");
 
   const handleChange = (event) => {
@@ -61,8 +64,8 @@ export default function Content() {
   };
 
   const handleSubmit = (event) => {
-    alert("A name was submitted: " + username);
-    event.preventDefault();
+    //event.preventDefault();
+    history.push(`/user/${username}`);
   };
   return (
     <ContentContainer>
