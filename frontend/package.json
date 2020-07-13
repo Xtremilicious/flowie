@@ -7,7 +7,11 @@
     "cra-template": "1.0.3",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+<<<<<<< HEAD
     "react-router-dom": "^5.2.0",
+=======
+    "react-router": "^5.2.0",
+>>>>>>> f2b7319edca68b5aab63e0e7a83b536ccd0b32c5
     "react-scripts": "3.4.1",
     "styled-components": "^5.1.1"
   },
