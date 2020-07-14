@@ -1,19 +1,38 @@
 import React, { useEffect, useContext } from "react";
 import UserContext from "../../UserContext";
 import axios from "axios";
+import { connect } from "react-redux";
+import { getUserData } from "../../redux/actions/dataActions";
 
 import HorTimeline from "./HorTimeline";
+import RepoData from "./RepoData";
 
-export default function Dashboard({ match }) {
-  const context = useContext(UserContext);
-
+function Dashboard({ match, user, getUserData }) {
   useEffect(() => {
-    axios.get(`https://api.github.com/users/${match.params.userId}`).then(function (response) {
-      context.setUser(response);
-    });
-  }, [context, match.params.userId]);
+    getUserData(match.params.userId);
+  }, []);
 
   return (
-    <>{context.user ? <HorTimeline user={match.params.userId} userData={context.user} /> : null};</>
+    <>
+      {user ? (
+        <>
+          <HorTimeline user={match.params.userId} userData={user} />
+          <RepoData />
+        </>
+      ) : null}
+      ;
+    </>
   );
 }
+
+const mapStateToProps = (state) => {
+  return {
+    user: state.data.user,
+  };
+};
+
+const mapDispatchToProps = {
+  getUserData,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
