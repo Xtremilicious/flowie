@@ -75,6 +75,7 @@ export class HorTimeline extends Component {
     const handleSubmit = (event) => {
       event.preventDefault();
       this.props.addProjects(this.state.newProject);
+      this.props.getProjects(this.props.projects);
     };
 
     const { projects, projectsData, user } = this.props;
