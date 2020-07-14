@@ -33,7 +33,7 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser, PermissionsMixin):
     """User model"""
-    id = models.UUIDField(primary_key=True, default=uuid4, editable=True)
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     name = models.CharField(max_length=255, unique=True)
     avatar = models.TextField(blank=True)
     is_active = models.BooleanField(default=True)
@@ -49,3 +49,17 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.name
+
+
+class TrackedRepository(models.Model):
+    """Tracked Repository model"""
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    repo_name = models.TextField()
+
+    class Meta:
+        app_label = 'flowie'
+        default_related_name = 'tracked_repositories'
+
+    def __str__(self):
+        return self.repo_name

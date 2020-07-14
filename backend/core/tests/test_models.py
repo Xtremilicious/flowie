@@ -10,6 +10,7 @@ class UserModelTests(TestCase):
         user = mu.sample_user()
 
         self.assertEqual(user.name, "sample_user")
+        self.assertEqual(user.__str__(), "sample_user")
         self.assertTrue(user.check_password("sample_user"))
 
     def test_user_name_lower(self):
@@ -18,3 +19,6 @@ class UserModelTests(TestCase):
         user = mu.sample_user(name=name)
 
         self.assertEqual(user.name, name.lower())
+
+
+
