@@ -21,4 +21,18 @@ class UserModelTests(TestCase):
         self.assertEqual(user.name, name.lower())
 
 
+class TrackedRepositoryModelTests(TestCase):
+    """Tests for tracked repo model"""
 
+    def test_create_tracked_repo(self):
+        """Test creating a tracked repo"""
+        repo_name = "JuliaPlots"
+        user = mu.sample_user()
+
+        t_repo = mu.sample_tracked_repo(
+            repo_name, user=user
+        )
+
+        self.assertEqual(t_repo.__str__(), repo_name)
+        self.assertEqual(t_repo.repo_name, repo_name)
+        self.assertEqual(t_repo.user.id, user.id)
