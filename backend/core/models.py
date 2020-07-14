@@ -34,7 +34,7 @@ class UserManager(BaseUserManager):
 class User(AbstractBaseUser, PermissionsMixin):
     """User model"""
     id = models.UUIDField(primary_key=True, default=uuid4, editable=True)
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, unique=True)
     avatar = models.TextField(blank=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
@@ -44,7 +44,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = 'name'
 
     class Meta:
-        app_label = 'user'
+        app_label = 'flowie'
         default_related_name = 'users'
 
     def __str__(self):
