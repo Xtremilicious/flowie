@@ -1,19 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useContext } from "react";
+import UserContext from "../../UserContext";
 import axios from "axios";
 
-export default function Dashboard({ match, location }) {
-  const [userData, setuserData] = useState(null);
+import HorTimeline from "./HorTimeline";
+
+export default function Dashboard({ match }) {
+  const context = useContext(UserContext);
 
   useEffect(() => {
     axios.get(`https://api.github.com/users/${match.params.userId}`).then(function (response) {
-      setuserData(response);
+      context.setUser(response);
     });
-  }, [match.params.userId]);
+  }, [context, match.params.userId]);
 
-  console.log(match, location);
   return (
-    <>
-      <code>{JSON.stringify(userData, null, 2)}</code>
-    </>
+    <>{context.user ? <HorTimeline user={match.params.userId} userData={context.user} /> : null};</>
   );
 }
