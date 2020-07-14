@@ -1,4 +1,4 @@
-import { GET_USER, GET_PROJECTS, ADD_PROJECT } from "../types";
+import { GET_USER, GET_PROJECTS, ADD_PROJECT, GET_DATES, UPDATE_INDEX } from "../types";
 import axios from "axios";
 
 export const getUserData = (user) => (dispatch) => {
@@ -33,5 +33,19 @@ export const addProjects = (newProj) => (dispatch) => {
   dispatch({
     type: ADD_PROJECT,
     payload: newProj,
+  });
+};
+
+export const getDates = (dates) => (dispatch) => {
+  dispatch({
+    type: GET_DATES,
+    payload: dates,
+  });
+};
+
+export const updateIndex = (i) => (dispatch) => {
+  dispatch({
+    type: UPDATE_INDEX,
+    payload: i,
   });
 };

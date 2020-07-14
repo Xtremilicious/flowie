@@ -4,7 +4,7 @@ import axios from "axios";
 import { FaPlus, FaTimes } from "react-icons/fa";
 import HorizontalTimeline from "react-horizontal-timeline";
 import { connect } from "react-redux";
-import { getProjects, addProjects } from "../../redux/actions/dataActions";
+import { getProjects, addProjects, getDates, updateIndex } from "../../redux/actions/dataActions";
 
 const TimeLineContainer = styled.div`
   .navbar {
@@ -75,10 +75,26 @@ export class HorTimeline extends Component {
     const handleSubmit = (event) => {
       event.preventDefault();
       this.props.addProjects(this.state.newProject);
-      this.props.getProjects(this.props.projects);
     };
 
     const { projects, projectsData, user } = this.props;
+
+    let dates = [];
+    projectsData.forEach((project) => {
+      project.data.forEach((subdata) => {
+        const date = new Date(subdata.updated_at).toDateString();
+        if (!dates.includes(date)) {
+          dates.push(date);
+        }
+      });
+    });
+
+    dates.sort(function (date1, date2) {
+      if (new Date(date1) > new Date(date2)) return 1;
+      if (new Date(date1) < new Date(date2)) return -1;
+      return 0;
+    });
+    console.log(dates);
 
     return (
       <TimeLineContainer>
@@ -117,19 +133,17 @@ export class HorTimeline extends Component {
             <HorizontalTimeline
               index={this.state.index}
               indexClick={(value) => {
-                this.setState({
-                  previous: this.state.index,
-                  index: value,
-                });
+                this.setState(
+                  {
+                    previous: this.state.index,
+                    index: value,
+                  },
+                  () => {
+                    this.props.updateIndex(value);
+                  }
+                );
               }}
-              values={[
-                "2015-03-25",
-                "2015-03-26",
-                "07/25/2015",
-                "Mar 25 2016",
-                "Sep 25 2016",
-                "Sep 25 2017",
-              ]}
+              values={dates}
               style={{ margin: "0px 40px" }}
             />
           </div>
@@ -184,12 +198,15 @@ const mapStateToProps = (state) => {
     user: state.data.user,
     projects: state.data.projects,
     projectsData: state.data.projectsData,
+    dates: state.data.dates,
   };
 };
 
 const mapDispatchToProps = {
   getProjects,
   addProjects,
+  getDates,
+  updateIndex,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(HorTimeline);

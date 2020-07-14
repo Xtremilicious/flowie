@@ -13,7 +13,22 @@ const TimelineInfoContainer = styled.div`
 
 class TimelineInfo extends Component {
   render() {
-    const { projectsData } = this.props;
+    const { projectsData, index } = this.props;
+    let dates = [];
+    projectsData.forEach((project) => {
+      project.data.forEach((subdata) => {
+        const date = new Date(subdata.updated_at).toDateString();
+        if (!dates.includes(date)) {
+          dates.push(date);
+        }
+      });
+    });
+
+    dates.sort(function (date1, date2) {
+      if (new Date(date1) > new Date(date2)) return 1;
+      if (new Date(date1) < new Date(date2)) return -1;
+      return 0;
+    });
     return (
       <TimelineInfoContainer>
         {projectsData.length > 0
@@ -21,7 +36,9 @@ class TimelineInfo extends Component {
               return (
                 <div className="PR-Container">
                   {project.data.map((subdata) => {
-                    return <PR value={subdata} />;
+                    if (new Date(subdata.updated_at).toDateString() == dates[index]) {
+                      return <PR value={subdata} />;
+                    }
                   })}
                 </div>
               );
@@ -37,6 +54,7 @@ const mapStateToProps = (state) => {
     user: state.data.user,
     projects: state.data.projects,
     projectsData: state.data.projectsData,
+    index: state.data.index,
   };
 };
 
