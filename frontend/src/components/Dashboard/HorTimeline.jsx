@@ -1,7 +1,6 @@
-import React, { useContext, useState, useEffect, Component } from "react";
+import React, { Component } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import { UserConsumer } from "../../UserContext";
 import { FaPlus, FaTimes } from "react-icons/fa";
 import HorizontalTimeline from "react-horizontal-timeline";
 import { connect } from "react-redux";
@@ -97,13 +96,13 @@ export class HorTimeline extends Component {
             <img src={user.data.avatar_url} alt="profile-pic" className="profile-pic" />
           </div>
         </div>
-        <div class="collapse projects-added" id="collapseExample">
-          <ul class="list-group">
+        <div className="collapse projects-added" id="collapseExample">
+          <ul className="list-group">
             {projectsData.length > 0
-              ? projectsData.map((project) => {
+              ? projects.map((project) => {
                   return (
-                    <li class="list-group-item d-flex">
-                      {project.data.full_name}
+                    <li className="list-group-item d-flex">
+                      {project}
                       <span className="text-danger" style={{ marginLeft: "auto" }}>
                         <FaTimes />
                       </span>
@@ -136,25 +135,25 @@ export class HorTimeline extends Component {
           </div>
         </div>
         <div
-          class="modal fade"
+          className="modal fade"
           id="exampleModal"
           tabindex="-1"
           role="dialog"
           aria-labelledby="exampleModalLabel"
           aria-hidden="true"
         >
-          <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">
+          <div className="modal-dialog modal-dialog-centered" role="document">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title" id="exampleModalLabel">
                   Add a new Project
                 </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
               <form onSubmit={handleSubmit}>
-                <div class="modal-body">
+                <div className="modal-body">
                   <input
                     type="text"
                     className="input-box"
@@ -163,11 +162,11 @@ export class HorTimeline extends Component {
                     onChange={handleChange}
                   />
                 </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                <div className="modal-footer">
+                  <button type="button" className="btn btn-secondary" data-dismiss="modal">
                     Close
                   </button>
-                  <button class="btn btn-primary" type="submit">
+                  <button className="btn btn-primary" type="submit">
                     Add Project
                   </button>
                 </div>

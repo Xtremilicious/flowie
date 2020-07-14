@@ -1,11 +1,10 @@
 import React, { useEffect, useContext } from "react";
-import UserContext from "../../UserContext";
 import axios from "axios";
 import { connect } from "react-redux";
 import { getUserData } from "../../redux/actions/dataActions";
 
 import HorTimeline from "./HorTimeline";
-import RepoData from "./RepoData";
+import TimelineInfo from "./TimelineInfo";
 
 function Dashboard({ match, user, getUserData }) {
   useEffect(() => {
@@ -17,7 +16,7 @@ function Dashboard({ match, user, getUserData }) {
       {user ? (
         <>
           <HorTimeline user={match.params.userId} userData={user} />
-          <RepoData />
+          <TimelineInfo />
         </>
       ) : null}
       ;

@@ -2,7 +2,7 @@ import { GET_USER, GET_PROJECTS, ADD_PROJECT } from "../types";
 
 const initialState = {
   user: null,
-  projects: ["SiddharthSham/spirit"],
+  projects: ["MLH-Fellowship/react-jsonschema-form"],
   projectsData: [],
 };
 

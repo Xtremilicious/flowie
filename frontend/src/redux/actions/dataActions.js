@@ -15,7 +15,7 @@ export const getProjects = (projects) => (dispatch) => {
   let promises = [];
   projects.forEach((project) => {
     promises.push(
-      axios.get(`https://api.github.com/repos/${project}`).then((res) => {
+      axios.get(`https://api.github.com/repos/${project}/pulls`).then((res) => {
         data.push(res);
       })
     );
