@@ -1,4 +1,11 @@
-import { GET_USER, GET_PROJECTS, ADD_PROJECT, GET_DATES, UPDATE_INDEX } from "../types";
+import {
+  GET_USER,
+  GET_PROJECTS,
+  ADD_PROJECT,
+  GET_DATES,
+  UPDATE_INDEX,
+  GET_COMMITS,
+} from "../types";
 import axios from "axios";
 
 export const getUserData = (user) => (dispatch) => {
@@ -31,6 +38,25 @@ export const getProjects = (projects) => (dispatch) => {
   Promise.all(promises).then(() =>
     dispatch({
       type: GET_PROJECTS,
+      payload: data,
+    })
+  );
+};
+
+export const getCommits = (projects) => (dispatch) => {
+  let data = [];
+  let promises = [];
+  projects.forEach((project) => {
+    promises.push(
+      axios.get(`https://api.github.com/repos/${project}/commits`).then((res) => {
+        data.push(res);
+      })
+    );
+  });
+
+  Promise.all(promises).then(() =>
+    dispatch({
+      type: GET_COMMITS,
       payload: data,
     })
   );

@@ -47,11 +47,11 @@ const PRContainer = styled.div`
   }
   .badge {
     display: inline-block;
-    padding: 0 7px;
+    padding: 0 7px !important;
     font-size: 11px;
     font-weight: 500;
     line-height: 18px;
-    border: 1px solid transparent;
+    border: 1px solid transparent !important;
     border-radius: 2em;
     margin: 0.7vh;
   }
@@ -130,7 +130,7 @@ export default class PR extends Component {
               className={
                 value.state === "open"
                   ? "icon status-open"
-                  : value.state === "closed" && value.merged_at !== null
+                  : value.state === "closed" && value.merged_at != null
                   ? "icon status-merged"
                   : "icon status-close"
               }
@@ -142,7 +142,7 @@ export default class PR extends Component {
                 className={
                   value.state === "open"
                     ? "title status-open"
-                    : value.state === "closed" && value.merged_at !== null
+                    : value.state === "closed" && value.merged_at != null
                     ? "title status-merged"
                     : "title status-close"
                 }
@@ -150,7 +150,7 @@ export default class PR extends Component {
                 <span style={{ fontWeight: 600 }}>
                   {value.state == "open"
                     ? "Open: "
-                    : value.state === "closed" && value.merged_at !== null
+                    : value.state === "closed" && value.merged_at != null
                     ? "Merged: "
                     : "Closed: "}
                 </span>

@@ -5,6 +5,7 @@ import { withRouter } from "react-router-dom";
 
 import PR from "./modules/PR";
 import Issue from "./modules/Issue";
+import Commit from "./modules/Commit";
 
 const TimelineInfoContainer = styled.div`
   .PR-Container {
@@ -31,11 +32,20 @@ const TimelineInfoContainer = styled.div`
 class TimelineInfo extends Component {
   render() {
     const { location, history } = this.props;
-    const { projectsData, index, loc, user } = this.props;
+    const { projectsData, index, loc, user, commits } = this.props;
     let dates = [];
     projectsData.forEach((project) => {
       project.data.forEach((subdata) => {
         const date = new Date(subdata.updated_at).toDateString();
+        if (!dates.includes(date)) {
+          dates.push(date);
+        }
+      });
+    });
+
+    commits.forEach((commit) => {
+      commit.data.forEach((subdata) => {
+        const date = new Date(subdata.commit.author.date).toDateString();
         if (!dates.includes(date)) {
           dates.push(date);
         }
@@ -57,65 +67,82 @@ class TimelineInfo extends Component {
     };
     return (
       <TimelineInfoContainer>
-        {projectsData.length > 0
-          ? projectsData.map((project) => {
-              return (
-                <div className="PR-Container">
-                  <div className="filter">
-                    <div className="mr-2">Filters: </div>
-                    <div
-                      onClick={() => handleFilter("")}
-                      className={
-                        loc.slice(loc.length - 2) == "" ? "mr-2 badge selected" : "mr-2 badge"
-                      }
-                    >
-                      All
-                    </div>
-                    <div
-                      onClick={() => handleFilter("PR")}
-                      className={
-                        loc.slice(loc.length - 2) == "PR" ? "mr-2 badge selected" : "mr-2 badge"
-                      }
-                    >
-                      Pull Requests
-                    </div>
-                    <div
-                      onClick={() => handleFilter("IS")}
-                      className={
-                        loc.slice(loc.length - 2) == "IS" ? "mr-2 badge selected" : "mr-2 badge"
-                      }
-                    >
-                      Issues
-                    </div>
-                  </div>
-                  {project.data.map((subdata) => {
-                    if (loc == "") {
-                      if (subdata.pull_request) {
-                        if (new Date(subdata.updated_at).toDateString() == dates[index]) {
-                          return <PR value={subdata} />;
+        <div className="PR-Container">
+          <div className="filter">
+            <div className="mr-2">Filters: </div>
+            <div
+              onClick={() => handleFilter("")}
+              className={loc.slice(loc.length - 2) == "" ? "mr-2 badge selected" : "mr-2 badge"}
+            >
+              All
+            </div>
+            <div
+              onClick={() => handleFilter("PR")}
+              className={loc.slice(loc.length - 2) == "PR" ? "mr-2 badge selected" : "mr-2 badge"}
+            >
+              Pull Requests
+            </div>
+            <div
+              onClick={() => handleFilter("IS")}
+              className={loc.slice(loc.length - 2) == "IS" ? "mr-2 badge selected" : "mr-2 badge"}
+            >
+              Issues
+            </div>
+            <div
+              onClick={() => handleFilter("CM")}
+              className={loc.slice(loc.length - 2) == "CM" ? "mr-2 badge selected" : "mr-2 badge"}
+            >
+              Commits
+            </div>
+          </div>
+          {projectsData.length > 0
+            ? projectsData.map((project) => {
+                return (
+                  <>
+                    {project.data.map((subdata) => {
+                      if (loc == "") {
+                        if (subdata.pull_request) {
+                          if (new Date(subdata.updated_at).toDateString() == dates[index]) {
+                            return <PR value={subdata} />;
+                          }
+                        } else {
+                          if (new Date(subdata.updated_at).toDateString() == dates[index]) {
+                            return <Issue value={subdata} />;
+                          }
                         }
                       } else {
-                        if (new Date(subdata.updated_at).toDateString() == dates[index]) {
-                          return <Issue value={subdata} />;
+                        const type = loc.slice(loc.length - 2);
+                        if (type == "PR" && subdata.pull_request) {
+                          if (new Date(subdata.updated_at).toDateString() == dates[index]) {
+                            return <PR value={subdata} />;
+                          }
+                        } else if (type == "IS" && !subdata.pull_request) {
+                          if (new Date(subdata.updated_at).toDateString() == dates[index]) {
+                            return <Issue value={subdata} />;
+                          }
                         }
                       }
-                    } else {
-                      const type = loc.slice(loc.length - 2);
-                      if (type == "PR" && subdata.pull_request) {
-                        if (new Date(subdata.updated_at).toDateString() == dates[index]) {
-                          return <PR value={subdata} />;
-                        }
-                      } else if (type == "IS" && !subdata.pull_request) {
-                        if (new Date(subdata.updated_at).toDateString() == dates[index]) {
-                          return <Issue value={subdata} />;
+                    })}
+                  </>
+                );
+              })
+            : "no data"}
+          {commits.length > 0
+            ? commits.map((commit) => {
+                return (
+                  <>
+                    {commit.data.map((subdata) => {
+                      if (loc.slice(loc.length - 2) == "CM" || loc == "") {
+                        if (new Date(subdata.commit.author.date).toDateString() == dates[index]) {
+                          return <Commit value={subdata} />;
                         }
                       }
-                    }
-                  })}
-                </div>
-              );
-            })
-          : "no data"}
+                    })}
+                  </>
+                );
+              })
+            : "no data"}
+        </div>
       </TimelineInfoContainer>
     );
   }
@@ -127,6 +154,7 @@ const mapStateToProps = (state) => {
     projects: state.data.projects,
     projectsData: state.data.projectsData,
     index: state.data.index,
+    commits: state.data.commits,
   };
 };
 
