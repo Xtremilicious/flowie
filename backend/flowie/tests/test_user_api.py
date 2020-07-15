@@ -31,15 +31,15 @@ class UserPublicAPI(TestCase):
         self.assertEqual(
             res.status_code, status.HTTP_201_CREATED
         )
-        self.assertEqual(res.data['name'], username)
+        self.assertEqual(res.data['name'], username.lower())
         self.assertTrue(
-            User.objects.filter(name=username).exists()
+            User.objects.filter(name=username.lower()).exists()
         )
 
     def test_create_existing_user(self):
         """Test create existing user"""
-        username = 'Diaga'
-        user = mu.sample_user(name=username)
+        username = 'ChHannan'
+        mu.sample_user(name=username)
         payload = {
             'username': username
         }
@@ -52,5 +52,37 @@ class UserPublicAPI(TestCase):
             res.status_code, status.HTTP_201_CREATED
         )
         self.assertEqual(
-            res.data['name'], username
+            res.data['name'], username.lower()
+        )
+
+    def test_create_no_user_github(self):
+        """Test create user that does not exist on github"""
+        username = 'auiwdhiuwahduihawd'
+        payload = {
+            'username': username
+        }
+
+        res = self.client.post(
+            USER_URL, payload
+        )
+
+        self.assertEqual(
+            res.status_code, status.HTTP_400_BAD_REQUEST
+        )
+        self.assertEqual(
+            res.data['message'], 'Username does not exist on Github'
+        )
+
+    def test_create_no_username(self):
+        """Test create user without passing username"""
+
+        res = self.client.post(
+            USER_URL
+        )
+
+        self.assertEqual(
+            res.status_code, status.HTTP_400_BAD_REQUEST
+        )
+        self.assertEqual(
+            res.data['message'], 'Bad request'
         )
