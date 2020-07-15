@@ -28,3 +28,11 @@ class TrackedRepositorySerializer(serializers.ModelSerializer):
         model = TrackedRepository
         fields = ('id', 'user', 'repo_name')
         read_only_fields = ('id', )
+
+
+class PRLinkedIssueSerializer(serializers.Serializer):
+    """Serializer for Linked Issues"""
+
+    title = serializers.CharField()
+    html_url = serializers.URLField()
+    state = serializers.CharField()
