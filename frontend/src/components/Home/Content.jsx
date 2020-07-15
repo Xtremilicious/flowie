@@ -57,7 +57,6 @@ const ContentContainer = styled.div`
     display: flex;
     align-items: center;
     cursor: pointer;
-    z-index: 1;
     height: 100%;
   }
   .art-pic {
