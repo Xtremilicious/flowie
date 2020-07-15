@@ -25,7 +25,7 @@ const TimeLineContainer = styled.div`
     background: transparent;
     border: none;
     border-right: 1px solid #bdbdbd;
-    font-size: 4vh;
+    font-size: 3.2vh;
     color: #585858;
     outline: none;
     display: flex;
@@ -152,7 +152,7 @@ export class HorTimeline extends Component {
           </div>
           <div className="btn-container">
             <button className="repo-btn" data-toggle="collapse" href="#collapseExample">
-              Projects
+              Tracked Projects
             </button>
             <button className="add-btn" data-toggle="modal" data-target="#exampleModal">
               <FaPlus />

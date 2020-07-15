@@ -37,7 +37,7 @@ const PRContainer = styled.div`
     color: #5f04b4;
   }
   .title {
-    font-size: 3vh;
+    font-size: 2.7vh;
   }
   .links {
     display: flex;
