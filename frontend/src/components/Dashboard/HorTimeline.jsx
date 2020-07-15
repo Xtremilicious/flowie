@@ -61,7 +61,7 @@ export class HorTimeline extends Component {
   state = {
     index: 0,
     previous: 0,
-    newProject: "MLH-Fellowship/react-jsonschema-form",
+    newProject: "facebook/react",
   };
 
   componentDidMount() {
@@ -181,7 +181,7 @@ export class HorTimeline extends Component {
                   <input
                     type="text"
                     className="input-box"
-                    placeholder="MLH-Fellowship/react-jsonschema-form"
+                    placeholder="facebook/react"
                     value={this.state.newProject}
                     onChange={handleChange}
                   />

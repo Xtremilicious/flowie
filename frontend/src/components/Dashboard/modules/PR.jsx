@@ -172,22 +172,24 @@ export default class PR extends Component {
                     <GoLinkExternal className="link" />
                   </a>
                 </div>
-                <div className="link-to-pr ml-3">
-                  <a
-                    href={value.html_url}
-                    className="link"
-                    target="_blank"
-                    data-toggle="tooltip"
-                    data-placement="top"
-                    title="See Discussion"
-                    data-toggle="collapse"
-                    data-target={`#${randId}`}
-                    aria-expanded="true"
-                    aria-controls={`${randId}`}
-                  >
-                    <GoCommentDiscussion className="link" />
-                  </a>
-                </div>
+                {reviewer_comments && reviewer_comments.data.length > 0 ? (
+                  <div className="link-to-pr ml-3">
+                    <a
+                      href={value.html_url}
+                      className="link"
+                      target="_blank"
+                      data-toggle="tooltip"
+                      data-placement="top"
+                      title="See Discussion"
+                      data-toggle="collapse"
+                      data-target={`#${randId}`}
+                      aria-expanded="true"
+                      aria-controls={`${randId}`}
+                    >
+                      <GoCommentDiscussion className="link" />
+                    </a>
+                  </div>
+                ) : null}
 
                 <div className="contributors">
                   {value.labels.length > 0 ? (
