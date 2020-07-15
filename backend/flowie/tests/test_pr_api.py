@@ -19,13 +19,15 @@ class PRLinkedIssuePublicAPI(TestCase):
 
     def test_view_linked_issues_hashtag(self):
         """Test for viewing linked issues with hashtag"""
-        repo = self.g.get_repo('JuliaPlots/Plots.jl')
+        repo_name = 'JuliaPlots/Plots.jl'
+        repo = self.g.get_repo(repo_name)
         pr = repo.get_pull(2807)
         issue_1 = repo.get_issue(2202)
         issue_2 = repo.get_issue(2330)
 
         payload = {
-            'body': pr.body
+            'body': pr.body,
+            'repo_name': repo_name
         }
 
         res = self.client.post(PR_LINKED_ISSUE_URL, payload)
@@ -41,12 +43,14 @@ class PRLinkedIssuePublicAPI(TestCase):
 
     def test_view_linked_issues_http(self):
         """Test for viewing linked issues with http"""
-        repo = self.g.get_repo('MLH-Fellowship/react-jsonschema-form')
+        repo_name = 'MLH-Fellowship/react-jsonschema-form'
+        repo = self.g.get_repo(repo_name)
         pr = repo.get_pull(39)
         issue_1 = repo.get_issue(9)
 
         payload = {
-            'body': pr.body
+            'body': pr.body,
+            'repo_name': repo_name
         }
 
         res = self.client.post(PR_LINKED_ISSUE_URL, payload)
@@ -62,10 +66,12 @@ class PRLinkedIssuePublicAPI(TestCase):
 
     def test_view_linked_issues_none(self):
         """Test for viewing linked issues when none exists"""
-        repo = self.g.get_repo('JuliaPlots/Plots.jl')
+        repo_name = 'JuliaPlots/Plots.jl'
+        repo = self.g.get_repo(repo_name)
         pr = repo.get_pull(2858)
 
         payload = {
+            'repo_name': repo_name,
             'body': pr.body
         }
 
@@ -75,5 +81,29 @@ class PRLinkedIssuePublicAPI(TestCase):
             res.status_code, status.HTTP_200_OK
         )
         self.assertEqual(
-            len(res.data), None
+            len(res.data), 0
+        )
+
+    def test_view_linked_issue_wrong_repo(self):
+        """Test linked issue URL with repo that does not exist"""
+        res = self.client.post(PR_LINKED_ISSUE_URL,
+                               {'repo_name': 'asijdiawj',
+                                'body': 'asd'})
+
+        self.assertEqual(
+            res.status_code, status.HTTP_400_BAD_REQUEST
+        )
+        self.assertEqual(
+            res.data['message'], 'Bad request'
+        )
+
+    def test_view_linked_issue_no_body(self):
+        """Test linked issue URL with no body passed"""
+        res = self.client.post(PR_LINKED_ISSUE_URL)
+
+        self.assertEqual(
+            res.status_code, status.HTTP_400_BAD_REQUEST
+        )
+        self.assertEqual(
+            res.data['message'], 'Bad request'
         )

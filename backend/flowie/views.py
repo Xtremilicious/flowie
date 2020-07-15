@@ -2,6 +2,8 @@ from rest_framework import viewsets, status
 from rest_framework.response import Response
 from github import GithubException
 
+import re
+
 from . import serializers
 from core.github_utils import GithubSingleton
 from core.models import TrackedRepository, User
@@ -112,5 +114,66 @@ class TrackedRepositoryViewSet(viewsets.GenericViewSet):
         else:
             return Response(
                 {'message': 'User not found!'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+
+class PRLinkedIssueViewSet(viewsets.GenericViewSet):
+    """PR Linked Issue View set"""
+
+    authentication_classes = []
+
+    permission_classes = []
+
+    serializer_class = serializers.PRLinkedIssueSerializer
+
+    queryset = User.objects.all()
+
+    def view_linked_issues(self, request, *args, **kwargs):
+        """Return linked issues"""
+        body = request.data.get('body', None)
+        repo_name = request.data.get('repo_name', None)
+        if body is not None or repo_name is not None:
+            try:
+                g = GithubSingleton.get()
+                repo = g.get_repo(repo_name)
+            except GithubException:
+                return Response({'message': 'Bad request'},
+                                status=status.HTTP_400_BAD_REQUEST)
+            finds_fix_hashtag = re.findall('fix #([0-9]+)', body,
+                                           re.IGNORECASE)
+            finds_fixes_hashtag = re.findall('fixes #([0-9]+)', body,
+                                             re.IGNORECASE)
+
+            finds_fix_http = re.findall('fix[\\S\\s]+issues/([0-9]+)', body,
+                                        re.IGNORECASE)
+            if len(finds_fix_http) == 0 and \
+                len(finds_fixes_hashtag) == 0 and \
+                    len(finds_fix_hashtag) == 0:
+                matches = []
+                if len(finds_fix_http) != 0:
+                    matches.append(*finds_fix_http)
+                elif len(finds_fix_hashtag) != 0:
+                    matches.append(*finds_fix_hashtag)
+                elif len(finds_fixes_hashtag) != 0:
+                    matches.append(*finds_fixes_hashtag)
+
+                response_data = []
+                for issue_number in matches:
+                    serializer = self.get_serializer(
+                        repo.get_issue(int(issue_number))
+                    )
+                    response_data.append(
+                        serializer.data
+                    )
+                return Response(
+                    response_data, status=status.HTTP_200_OK
+                )
+            else:
+                return Response([], status=status.HTTP_200_OK)
+
+        else:
+            return Response(
+                {'message': 'Bad request'},
                 status=status.HTTP_400_BAD_REQUEST
             )
