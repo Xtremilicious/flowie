@@ -5,7 +5,7 @@ from rest_framework.routers import Route
 from app.urls import router
 from . import views
 
-app_name = 'flower'
+app_name = 'flowie'
 
 router.routes += [
     # Track Repository View Route
@@ -21,7 +21,7 @@ router.routes += [
     ),
 ]
 
-router.register('flowie', views.BoardViewSet)
+router.register('flowie', views.TrackedRepositoryViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),

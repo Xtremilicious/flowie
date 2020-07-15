@@ -7,7 +7,7 @@ from rest_framework.test import APIClient
 
 from core import models_utils as mu
 
-T_REPO_URL = reverse('tracked_repo-view')
+T_REPO_URL = reverse('flowie:tracked_repository-view')
 
 
 class TrackedRepositoryPublicAPI(TestCase):
