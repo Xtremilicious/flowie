@@ -35,7 +35,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     """User model"""
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     name = models.CharField(max_length=255, unique=True)
-    avatar = models.TextField(blank=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
