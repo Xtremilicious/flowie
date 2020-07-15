@@ -60,3 +60,40 @@ class TrackedRepositoryPublicAPI(TestCase):
 
         self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(res.data['message'], 'User not found!')
+
+    def test_get_all_tracked_repo_exists(self):
+        """Test for retrieving all tracked repositories"""
+        username = 'Diaga'
+        repo_name = 'JuliaPlots/Plots.jl'
+        user = mu.sample_user(name=username)
+        mu.sample_tracked_repo(
+            repo_name,
+            user=user
+        )
+
+        res = self.client.get(T_REPO_URL, {'username': username})
+
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        self.assertEqual(res.body[0], {'user': user.id,
+                                       'repo_name': repo_name})
+
+    def test_get_all_tracked_repo_not_exists(self):
+        """Test for retrieving all tracked repositories
+        if none exists"""
+        username = 'Diaga'
+        mu.sample_user(name=username)
+
+        res = self.client.get(T_REPO_URL, {'username': username})
+
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        self.assertEqual(res.body, [])
+
+    def test_get_all_tracked_repo_user_not_exists(self):
+        """Test for retrieving all tracked repositories
+        if username not exists"""
+        username = 'Diaga'
+
+        res = self.client.get(T_REPO_URL, {'username': username})
+
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        self.assertEqual(res.body, [])
