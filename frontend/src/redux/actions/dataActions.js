@@ -17,6 +17,13 @@ export const getProjects = (projects) => (dispatch) => {
     promises.push(
       axios.get(`https://api.github.com/repos/${project}/pulls`).then((res) => {
         data.push(res);
+        res.data.forEach((r) => {
+          if (r.review_comments_url) {
+            axios.get(r.review_comments_url).then((comments_response) => {
+              r.reviewer_comments = comments_response;
+            });
+          }
+        });
       })
     );
   });
@@ -29,11 +36,13 @@ export const getProjects = (projects) => (dispatch) => {
   );
 };
 
-export const addProjects = (newProj) => (dispatch) => {
-  dispatch({
-    type: ADD_PROJECT,
-    payload: newProj,
-  });
+export const addProjects = (newProj, projects) => (dispatch) => {
+  if (!projects.includes(newProj)) {
+    dispatch({
+      type: ADD_PROJECT,
+      payload: newProj,
+    });
+  }
 };
 
 export const getDates = (dates) => (dispatch) => {

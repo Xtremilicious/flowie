@@ -11,6 +11,10 @@ const TimeLineContainer = styled.div`
     display: flex;
     padding: 4vh;
   }
+  .link {
+    text-decoration: none;
+    color: black;
+  }
   .repo-btn {
     background: white;
     border-width: 1px !important;
@@ -74,7 +78,7 @@ export class HorTimeline extends Component {
 
     const handleSubmit = (event) => {
       event.preventDefault();
-      this.props.addProjects(this.state.newProject);
+      this.props.addProjects(this.state.newProject, this.props.projects);
       this.props.getProjects(this.props.projects);
     };
 
@@ -95,11 +99,16 @@ export class HorTimeline extends Component {
       if (new Date(date1) < new Date(date2)) return -1;
       return 0;
     });
-    console.log(dates);
+    console.log(projectsData);
 
     return (
       <TimeLineContainer>
         <div className="navbar">
+          <div>
+            <a className="navbar-brand mx-sm-4 mr-sm-5" href="../" className="link">
+              <span className="brand-title">Flowie</span>
+            </a>
+          </div>
           <div className="btn-container">
             <button className="repo-btn" data-toggle="collapse" href="#collapseExample">
               Projects

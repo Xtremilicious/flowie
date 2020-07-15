@@ -50,7 +50,7 @@ const ContentContainer = styled.div`
     background-image: linear-gradient(to right, rgb(74, 175, 255), rgb(20, 135, 226));
     border: none;
     color: white;
-    padding: 0.7vh 3vh;
+    padding: 1.65vh 3vh;
     font-size: 3.5vh;
     border-radius: 0 4vh 4vh 0;
     outline: none;
@@ -58,6 +58,7 @@ const ContentContainer = styled.div`
     align-items: center;
     cursor: pointer;
     z-index: 1;
+    height: 100%;
   }
   .art-pic {
     height: 95vh;
@@ -101,7 +102,7 @@ export default function Content() {
                 disabled={username.length > 0 ? false : true}
               >
                 <FaSignInAlt />
-                <span className="ml-2">Login</span>
+                {/* <span className="ml-2">Login</span> */}
               </button>
             </form>
           </div>
