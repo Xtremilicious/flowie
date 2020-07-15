@@ -1,4 +1,4 @@
-from rest_framework import viewsets, mixins, status
+from rest_framework import viewsets, status
 from rest_framework.response import Response
 from github import GithubException
 
@@ -7,8 +7,7 @@ from core.github_utils import GithubSingleton
 from core.models import TrackedRepository, User
 
 
-class TrackedRepositoryViewSet(viewsets.GenericViewSet,
-                               mixins.CreateModelMixin):
+class TrackedRepositoryViewSet(viewsets.GenericViewSet):
     """View set for Tracked Repository"""
 
     authentication_classes = []
@@ -18,6 +17,26 @@ class TrackedRepositoryViewSet(viewsets.GenericViewSet,
     serializer_class = serializers.TrackedRepositorySerializer
 
     queryset = TrackedRepository.objects.all()
+
+    def get_queryset(self):
+        """Filter queryset"""
+        queryset = super(TrackedRepositoryViewSet, self).get_queryset()
+
+        username = self.request.GET.get('username', None)
+        if username is not None:
+            queryset.filter(
+                user__name=username
+            ).all()
+
+        return queryset
+
+    def view_tracked_repository(self, request, *args, **kwargs):
+        """Return all tracked repos for a certain username"""
+        serializer = self.get_serializer(
+            self.get_queryset(), many=True
+        )
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     def create_tracked_repository(self, request, *args, **kwargs):
         """Check if repository and user name exists and

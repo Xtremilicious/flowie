@@ -74,8 +74,9 @@ class TrackedRepositoryPublicAPI(TestCase):
         res = self.client.get(T_REPO_URL, {'username': username})
 
         self.assertEqual(res.status_code, status.HTTP_200_OK)
-        self.assertEqual(res.body[0], {'user': user.id,
-                                       'repo_name': repo_name})
+        self.assertEqual(len(res.data), 1)
+        self.assertEqual(res.data[0]['user'], user.id)
+        self.assertEqual(res.data[0]['repo_name'], repo_name)
 
     def test_get_all_tracked_repo_not_exists(self):
         """Test for retrieving all tracked repositories
@@ -86,7 +87,7 @@ class TrackedRepositoryPublicAPI(TestCase):
         res = self.client.get(T_REPO_URL, {'username': username})
 
         self.assertEqual(res.status_code, status.HTTP_200_OK)
-        self.assertEqual(res.body, [])
+        self.assertEqual(res.data, [])
 
     def test_get_all_tracked_repo_user_not_exists(self):
         """Test for retrieving all tracked repositories
@@ -96,4 +97,24 @@ class TrackedRepositoryPublicAPI(TestCase):
         res = self.client.get(T_REPO_URL, {'username': username})
 
         self.assertEqual(res.status_code, status.HTTP_200_OK)
-        self.assertEqual(res.body, [])
+        self.assertEqual(res.data, [])
+
+    def test_get_all_tracked_repo_user_not_specified(self):
+        """Test for retrieving all tracked repositories
+        if username not specified"""
+        username = 'Diaga'
+        user_sample = mu.sample_user()
+        user_other = mu.sample_user(name=username)
+
+        repo_name = 'JuliaPlots/Plots.jl'
+        mu.sample_tracked_repo(repo_name, user=user_sample)
+        mu.sample_tracked_repo(repo_name, user=user_other)
+
+        res = self.client.get(T_REPO_URL)
+
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(res.data), 2)
+        for repo in res.data:
+            self.assertIn(repo['user'],
+                          [user_sample.id, user_other.id])
+            self.assertIn(repo['repo_name'], repo_name)
