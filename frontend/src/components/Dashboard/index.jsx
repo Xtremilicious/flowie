@@ -6,17 +6,17 @@ import { getUserData } from "../../redux/actions/dataActions";
 import HorTimeline from "./HorTimeline";
 import TimelineInfo from "./TimelineInfo";
 
-function Dashboard({ match, user, getUserData }) {
+function Dashboard({ match, user, getUserData, location }) {
   useEffect(() => {
     getUserData(match.params.userId);
   }, []);
-
+  console.log("hi", location.search);
   return (
     <>
       {user ? (
         <>
           <HorTimeline user={match.params.userId} userData={user} />
-          <TimelineInfo />
+          <TimelineInfo loc={location.search} />
         </>
       ) : null}
       ;

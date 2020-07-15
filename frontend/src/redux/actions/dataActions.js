@@ -15,11 +15,11 @@ export const getProjects = (projects) => (dispatch) => {
   let promises = [];
   projects.forEach((project) => {
     promises.push(
-      axios.get(`https://api.github.com/repos/${project}/pulls?state=all`).then((res) => {
+      axios.get(`https://api.github.com/repos/${project}/issues?state=all`).then((res) => {
         data.push(res);
         res.data.forEach((r) => {
-          if (r.review_comments_url) {
-            axios.get(r.review_comments_url).then((comments_response) => {
+          if (r.comments_url) {
+            axios.get(r.comments_url).then((comments_response) => {
               r.reviewer_comments = comments_response;
             });
           }
