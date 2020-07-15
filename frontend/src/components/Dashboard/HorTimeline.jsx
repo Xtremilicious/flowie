@@ -170,7 +170,7 @@ export class HorTimeline extends Component {
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title" id="exampleModalLabel">
-                  Add a new Project
+                  Add New Project
                 </h5>
                 <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
