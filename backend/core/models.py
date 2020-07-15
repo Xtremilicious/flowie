@@ -12,7 +12,7 @@ class UserManager(BaseUserManager):
     def create_user(self, name, password, **extra_fields):
         """Creates and saves a new user"""
         if not name:
-            raise ValueError("User must have an email address")
+            raise ValueError("User must have an username")
 
         user = self.model(name=name.lower(), **extra_fields)
         user.set_password(password)
@@ -35,7 +35,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     """User model"""
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     name = models.CharField(max_length=255, unique=True)
-    avatar = models.TextField(blank=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 

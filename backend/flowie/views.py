@@ -7,6 +7,55 @@ from core.github_utils import GithubSingleton
 from core.models import TrackedRepository, User
 
 
+class UserViewSet(viewsets.GenericViewSet):
+    """View set for User model"""
+
+    authentication_classes = []
+
+    permission_classes = []
+
+    serializer_class = serializers.UserSerializer
+
+    queryset = User.objects.all()
+
+    def create_user(self, request, *args, **kwargs):
+        """Return create user if not exists otherwise
+        create new user"""
+        username = request.data.get('username', None)
+        if username is not None:
+            try:
+                g = GithubSingleton.get()
+                g.get_user(username)
+            except GithubException:
+                return Response(
+                    {'message': 'Username does not exist on Github'},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+            user_query = User.objects.filter(
+                name=username.lower()
+            )
+            if user_query.exists():
+                serializer = self.get_serializer(
+                    user_query.first()
+                )
+            else:
+                user = User.objects.create_user(
+                    username, username
+                )
+                serializer = self.get_serializer(
+                    user
+                )
+
+            return Response(
+                serializer.data, status=status.HTTP_201_CREATED
+            )
+        else:
+            return Response(
+                {'message': 'Bad request'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+
 class TrackedRepositoryViewSet(viewsets.GenericViewSet):
     """View set for Tracked Repository"""
 
