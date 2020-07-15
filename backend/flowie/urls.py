@@ -30,11 +30,24 @@ router.routes += [
         name='user-view',
         detail=False,
         initkwargs={'suffix': 'View'}
+    ),
+
+    # PR Linked Issues View Route
+    Route(
+        url=r'^flowie{trailing_slash}pr{trailing_slash}linked'
+            r'{trailing_slash}issues{trailing_slash}$',
+        mapping={
+            'post': 'view_linked_issues'
+        },
+        name='pr_linked_issue-view',
+        detail=False,
+        initkwargs={'suffix': 'View'}
     )
 ]
 
 router.register('flowie', views.TrackedRepositoryViewSet)
 router.register('flowie', views.UserViewSet)
+router.register('flowie', views.PRLinkedIssueViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
