@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { FaPlus, FaTimes } from "react-icons/fa";
-import HorizontalTimeline from "react-horizontal-timeline";
+import HorizontalTimeline from "../../utils/Components/HorizontalTimeline";
 import { connect } from "react-redux";
 import { getProjects, addProjects, getDates, updateIndex } from "../../redux/actions/dataActions";
 
@@ -139,7 +139,7 @@ export class HorTimeline extends Component {
           </ul>
         </div>
         <div>
-          <div style={{ width: "60%", height: "150px", margin: "0 auto", marginTop: "7vh" }}>
+          <div style={{ width: "60%", height: "150px", margin: "0 auto", marginTop: "5vh" }}>
             <HorizontalTimeline
               index={this.state.index}
               indexClick={(value) => {

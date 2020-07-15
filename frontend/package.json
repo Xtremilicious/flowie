@@ -7,7 +7,7 @@
     "cra-template": "1.0.3",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-horizontal-timeline": "^1.5.3",
+    "react-horizontal-timeline": "github:Diaga/react-horizontal-timeline",
     "react-icons": "^3.10.0",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.2.0",
