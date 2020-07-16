@@ -11,7 +11,6 @@ function Dashboard({ match, user, getUserData, location, projectsData, commits }
   useEffect(() => {
     getUserData(match.params.userId);
   }, []);
-  console.log("hi", location.search);
   return (
     <>
       {user ? (
@@ -22,9 +21,8 @@ function Dashboard({ match, user, getUserData, location, projectsData, commits }
           ) : (
             "loading data"
           )}
-  
-          <NotesFAB/>
 
+          <NotesFAB />
         </>
       ) : null}
       ;

@@ -41,8 +41,8 @@ const TimelineInfoContainer = styled.div`
 class TimelineInfo extends Component {
   state = {
     isExclusive: false,
-    projectsData: [],
-    commits: [],
+    projectsData: this.props.projectsData,
+    commits: this.props.commits,
     index: 0,
     previous: 0,
     dates: [],
@@ -50,8 +50,8 @@ class TimelineInfo extends Component {
   };
 
   updateStateData(bool, projectsData, commits) {
-    let tempData = [...projectsData];
-    let tempData2 = [...commits];
+    let tempData = [...this.props.projectsData];
+    let tempData2 = [...this.props.commits];
     if (bool) {
       tempData.forEach((project) => {
         project.data = project.data.filter(
@@ -76,8 +76,8 @@ class TimelineInfo extends Component {
     } else {
       this.setState(
         {
-          projectsData: projectsData,
-          commits: commits,
+          projectsData: this.props.projectsData,
+          commits: this.props.commits,
         },
         () => {
           this.updateDates();
@@ -124,6 +124,10 @@ class TimelineInfo extends Component {
     console.log("haha", this.props.projectsData);
   }
 
+  static getDerivedStateFromProps(props, state) {
+    return { projectsData: props.projectsData };
+  }
+
   render() {
     const handleInputChange = (event) => {
       const target = event.target;
@@ -155,6 +159,7 @@ class TimelineInfo extends Component {
         history.push(`./${user.data.login}?show=${filter}`);
       }
     };
+    console.log(this.state.projectsData);
     return (
       <TimelineInfoContainer>
         <div>
@@ -224,33 +229,35 @@ class TimelineInfo extends Component {
                 return (
                   <>
                     {project.data.map((subdata) => {
-                      if (loc == "") {
-                        if (subdata.pull_request) {
-                          if (
-                            new Date(subdata.updated_at).toDateString() == this.state.dates[index]
-                          ) {
-                            return <PR value={subdata} />;
+                      if (!this.state.isExclusive || subdata.user.login === user.data.login) {
+                        if (loc == "") {
+                          if (subdata.pull_request) {
+                            if (
+                              new Date(subdata.updated_at).toDateString() == this.state.dates[index]
+                            ) {
+                              return <PR value={subdata} />;
+                            }
+                          } else {
+                            if (
+                              new Date(subdata.updated_at).toDateString() == this.state.dates[index]
+                            ) {
+                              return <Issue value={subdata} />;
+                            }
                           }
                         } else {
-                          if (
-                            new Date(subdata.updated_at).toDateString() == this.state.dates[index]
-                          ) {
-                            return <Issue value={subdata} />;
-                          }
-                        }
-                      } else {
-                        const type = loc.slice(loc.length - 2);
-                        if (type == "PR" && subdata.pull_request) {
-                          if (
-                            new Date(subdata.updated_at).toDateString() == this.state.dates[index]
-                          ) {
-                            return <PR value={subdata} />;
-                          }
-                        } else if (type == "IS" && !subdata.pull_request) {
-                          if (
-                            new Date(subdata.updated_at).toDateString() == this.state.dates[index]
-                          ) {
-                            return <Issue value={subdata} />;
+                          const type = loc.slice(loc.length - 2);
+                          if (type == "PR" && subdata.pull_request) {
+                            if (
+                              new Date(subdata.updated_at).toDateString() == this.state.dates[index]
+                            ) {
+                              return <PR value={subdata} />;
+                            }
+                          } else if (type == "IS" && !subdata.pull_request) {
+                            if (
+                              new Date(subdata.updated_at).toDateString() == this.state.dates[index]
+                            ) {
+                              return <Issue value={subdata} />;
+                            }
                           }
                         }
                       }
@@ -264,12 +271,14 @@ class TimelineInfo extends Component {
                 return (
                   <>
                     {commit.data.map((subdata) => {
-                      if (loc.slice(loc.length - 2) == "CM" || loc == "") {
-                        if (
-                          new Date(subdata.commit.author.date).toDateString() ==
-                          this.state.dates[index]
-                        ) {
-                          return <Commit value={subdata} />;
+                      if (!this.state.isExclusive || subdata.author.login === user.data.login) {
+                        if (loc.slice(loc.length - 2) == "CM" || loc == "") {
+                          if (
+                            new Date(subdata.commit.author.date).toDateString() ==
+                            this.state.dates[index]
+                          ) {
+                            return <Commit value={subdata} />;
+                          }
                         }
                       }
                     })}
