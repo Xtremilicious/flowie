@@ -6,7 +6,7 @@ import {
   UPDATE_INDEX,
   GET_COMMITS,
   SET_NOTES,
-  GET_NOTES
+  GET_NOTES,
 } from "../types";
 
 const initialState = {
@@ -16,7 +16,7 @@ const initialState = {
   dates: [],
   commits: [],
   index: 0,
-  notes: []
+  notes: "",
 };
 
 export default function (state = initialState, action) {

@@ -6,7 +6,7 @@ import {
   UPDATE_INDEX,
   GET_COMMITS,
   GET_NOTES,
-  SET_NOTES
+  SET_NOTES,
 } from "../types";
 import axios from "axios";
 
@@ -88,17 +88,17 @@ export const updateIndex = (i) => (dispatch) => {
 };
 
 export const getNote = () => (dispatch) => {
-  let notes = window.localStorage.getItem('notes') || []
+  let notes = window.localStorage.getItem("notes") || "";
   dispatch({
     type: GET_NOTES,
     payload: notes,
   });
 };
 
-export const addNote = note => (dispatch) => {
-  let notes = [...window.localStorage.getItem('notes') || [], note]
+export const addNote = (note) => (dispatch) => {
+  window.localStorage.setItem("notes", note);
   dispatch({
     type: SET_NOTES,
-    payload: notes,
+    payload: note,
   });
 };
