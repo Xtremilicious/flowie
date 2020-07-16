@@ -140,7 +140,6 @@ export class HorTimeline extends Component {
       if (new Date(date1) < new Date(date2)) return -1;
       return 0;
     });
-    console.log(projectsData);
 
     return (
       <TimeLineContainer>
