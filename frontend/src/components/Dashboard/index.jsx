@@ -5,6 +5,7 @@ import { getUserData } from "../../redux/actions/dataActions";
 
 import HorTimeline from "./HorTimeline";
 import TimelineInfo from "./TimelineInfo";
+import NotesFAB from "./NotesFAB";
 
 function Dashboard({ match, user, getUserData, location, projectsData, commits }) {
   useEffect(() => {
@@ -21,6 +22,9 @@ function Dashboard({ match, user, getUserData, location, projectsData, commits }
           ) : (
             "loading data"
           )}
+  
+          <NotesFAB/>
+
         </>
       ) : null}
       ;
