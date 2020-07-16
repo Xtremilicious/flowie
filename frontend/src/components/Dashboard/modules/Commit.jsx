@@ -96,7 +96,6 @@ const PRContainer = styled.div`
 
 export default class Commit extends Component {
   render() {
-    console.log(this.props.value);
     const { value } = this.props;
 
     const date = new Date(value.commit.author.date);
