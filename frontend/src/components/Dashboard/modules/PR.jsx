@@ -96,7 +96,6 @@ const PRContainer = styled.div`
 
 export default class PR extends Component {
   render() {
-    console.log(this.props.value);
     const { value } = this.props;
     const { reviewer_comments } = value;
     function hexToRgb(hex) {

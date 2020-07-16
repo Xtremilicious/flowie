@@ -179,26 +179,7 @@ export class HorTimeline extends Component {
               : "no data"}
           </ul>
         </div>
-        <div>
-          <div style={{ width: "60%", height: "150px", margin: "0 auto", marginTop: "5vh" }}>
-            <HorizontalTimeline
-              index={this.state.index}
-              indexClick={(value) => {
-                this.setState(
-                  {
-                    previous: this.state.index,
-                    index: value,
-                  },
-                  () => {
-                    this.props.updateIndex(value);
-                  }
-                );
-              }}
-              values={dates}
-              style={{ margin: "0px 40px" }}
-            />
-          </div>
-        </div>
+
         <div
           className="modal fade"
           id="exampleModal"

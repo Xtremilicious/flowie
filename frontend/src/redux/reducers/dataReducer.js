@@ -14,6 +14,7 @@ const initialState = {
   dates: [],
   commits: [],
   index: 0,
+  notes: [],
 };
 
 export default function (state = initialState, action) {
