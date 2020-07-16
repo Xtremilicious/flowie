@@ -5,8 +5,9 @@ import { getUserData } from "../../redux/actions/dataActions";
 
 import HorTimeline from "./HorTimeline";
 import TimelineInfo from "./TimelineInfo";
+import NotesFAB from "./NotesFAB";
 
-function Dashboard({ match, user, getUserData, location }) {
+function Dashboard({ match, user, getUserData, location, projectsData, commits }) {
   useEffect(() => {
     getUserData(match.params.userId);
   }, []);
@@ -16,7 +17,14 @@ function Dashboard({ match, user, getUserData, location }) {
       {user ? (
         <>
           <HorTimeline user={match.params.userId} userData={user} />
-          <TimelineInfo loc={location.search} />
+          {projectsData.length > 0 && commits.length > 0 ? (
+            <TimelineInfo loc={location.search} />
+          ) : (
+            "loading data"
+          )}
+  
+          <NotesFAB/>
+
         </>
       ) : null}
       ;
@@ -27,6 +35,10 @@ function Dashboard({ match, user, getUserData, location }) {
 const mapStateToProps = (state) => {
   return {
     user: state.data.user,
+    projects: state.data.projects,
+    projectsData: state.data.projectsData,
+    index: state.data.index,
+    commits: state.data.commits,
   };
 };
 
