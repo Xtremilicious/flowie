@@ -99,7 +99,7 @@ export default function Content() {
               <button
                 className="btn-username"
                 type="submit"
-                disabled={username.length > 0 ? false : true}
+                disabled={username.length <= 0}
               >
                 <FaSignInAlt />
                 {/* <span className="ml-2">Login</span> */}
