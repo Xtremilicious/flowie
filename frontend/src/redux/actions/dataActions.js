@@ -7,6 +7,7 @@ import {
   GET_COMMITS,
   GET_NOTES,
   SET_NOTES,
+  DELETE_PROJECT,
 } from "../types";
 import axios from "axios";
 
@@ -106,6 +107,16 @@ export const updateIndex = (i) => (dispatch) => {
   dispatch({
     type: UPDATE_INDEX,
     payload: i,
+  });
+};
+
+export const deleteProject = (project, projects) => (dispatch) => {
+  if (projects.includes(project)) {
+    projects = projects.filter((t) => t != project);
+  }
+  dispatch({
+    type: DELETE_PROJECT,
+    payload: projects,
   });
 };
 
