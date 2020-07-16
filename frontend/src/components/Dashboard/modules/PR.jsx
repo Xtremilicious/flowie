@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import { GoGitPullRequest, GoLinkExternal, GoGitMerge, GoCommentDiscussion } from "react-icons/go";
+import { GoGitPullRequest, GoLinkExternal, GoGitMerge, GoCommentDiscussion, GoIssueOpened } from "react-icons/go";
 
 const PRContainer = styled.div`
   .pr-container {
@@ -97,7 +97,8 @@ const PRContainer = styled.div`
 export default class PR extends Component {
   render() {
     const { value } = this.props;
-    const { reviewer_comments } = value;
+    const { reviewer_comments, linked_issues } = value;
+    console.log(linked_issues);
     function hexToRgb(hex) {
       var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
       return result
@@ -121,6 +122,7 @@ export default class PR extends Component {
       return result;
     }
     const randId = makeid(6);
+    const randIdLinkedIssue = makeid(6);
     return (
       <PRContainer>
         <div className="accordion" id="accordionExample">
@@ -147,7 +149,7 @@ export default class PR extends Component {
                 }
               >
                 <span style={{ fontWeight: 600 }}>
-                  {value.state == "open"
+                  {value.state === "open"
                     ? "Open: "
                     : value.state === "closed" && value.merged_at != null
                     ? "Merged: "
@@ -190,6 +192,25 @@ export default class PR extends Component {
                   </div>
                 ) : null}
 
+                {linked_issues && linked_issues.length > 0 ? (
+                    <div className="link-to-pr ml-3">
+                      <a
+                          href={value.html_url}
+                          className="link"
+                          target="_blank"
+                          data-toggle="tooltip"
+                          data-placement="top"
+                          title="See linked issues"
+                          data-toggle="collapse"
+                          data-target={`#${randIdLinkedIssue}`}
+                          aria-expanded="true"
+                          aria-controls={randIdLinkedIssue}
+                      >
+                        <GoIssueOpened className="link" />
+                      </a>
+                    </div>
+                ) : null}
+
                 <div className="contributors">
                   {value.labels.length > 0 ? (
                     <div className="badges">
@@ -215,42 +236,63 @@ export default class PR extends Component {
                   </a>
                 </div>
               </div>
-              {reviewer_comments && reviewer_comments.data.length > 0 ? (
+              {linked_issues && linked_issues.length > 0  ? (
                 <div
-                  id={`${randId}`}
+                  id={randIdLinkedIssue}
                   className="collapse"
                   aria-labelledby="headingOne"
                   data-parent="#accordionExample"
                 >
                   <div className="comments-container">
-                    {reviewer_comments.data.map((comment) => {
+                    {linked_issues.map((linked_issue) => {
                       return (
                         <div className="user-comment">
-                          <div className="commenter-avatar">
-                            <img
-                              src={comment.user.avatar_url}
-                              alt="profile-pic"
-                              className="profile-pic"
-                            />
-                          </div>
-                          <div className="comment-body">
-                            <div
-                              style={{ fontWeight: 500 }}
-                              className="d-flex align-items-center mb-1"
-                            >
-                              {comment.user.login}{" "}
-                              {comment.author_association === "MEMBER" ||
-                              comment.author_association === "COLLABORATOR" ? (
-                                <div className="commenter-role ml-2">Member</div>
-                              ) : null}
-                            </div>
-                            <div>{comment.body}</div>
+                          <a href={linked_issue.data.html_url}><GoLinkExternal /></a>
+                          <div className="comment-body" style={{"font-size": "14px", "margin-top": "5px", "margin-left": "5px"}}>
+                            <div>{linked_issue.data.title}</div>
                           </div>
                         </div>
                       );
                     })}
                   </div>
                 </div>
+              ) : null}
+              {reviewer_comments && reviewer_comments.data.length > 0 ? (
+                  <div
+                      id={`${randId}`}
+                      className="collapse"
+                      aria-labelledby="headingOne"
+                      data-parent="#accordionExample"
+                  >
+                    <div className="comments-container">
+                      {reviewer_comments.data.map((comment) => {
+                        return (
+                            <div className="user-comment">
+                              <div className="commenter-avatar">
+                                <img
+                                    src={comment.user.avatar_url}
+                                    alt="profile-pic"
+                                    className="profile-pic"
+                                />
+                              </div>
+                              <div className="comment-body">
+                                <div
+                                    style={{ fontWeight: 500 }}
+                                    className="d-flex align-items-center mb-1"
+                                >
+                                  {comment.user.login}{" "}
+                                  {comment.author_association === "MEMBER" ||
+                                  comment.author_association === "COLLABORATOR" ? (
+                                      <div className="commenter-role ml-2">Member</div>
+                                  ) : null}
+                                </div>
+                                <div>{comment.body}</div>
+                              </div>
+                            </div>
+                        );
+                      })}
+                    </div>
+                  </div>
               ) : null}
             </div>
           </div>

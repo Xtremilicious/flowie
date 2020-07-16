@@ -153,7 +153,7 @@ class TimelineInfo extends Component {
     const { index, loc, user } = this.props;
 
     const handleFilter = (filter) => {
-      if (filter == "") {
+      if (filter === "") {
         history.push(`./${user.data.login}`);
       } else {
         history.push(`./${user.data.login}?show=${filter}`);
