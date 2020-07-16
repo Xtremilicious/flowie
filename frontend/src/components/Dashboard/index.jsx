@@ -5,6 +5,7 @@ import { getUserData } from "../../redux/actions/dataActions";
 
 import HorTimeline from "./HorTimeline";
 import TimelineInfo from "./TimelineInfo";
+import NotesFAB from "./NotesFAB";
 
 function Dashboard({ match, user, getUserData, location }) {
   useEffect(() => {
@@ -17,6 +18,7 @@ function Dashboard({ match, user, getUserData, location }) {
         <>
           <HorTimeline user={match.params.userId} userData={user} />
           <TimelineInfo loc={location.search} />
+          <NotesFAB/>
         </>
       ) : null}
       ;
