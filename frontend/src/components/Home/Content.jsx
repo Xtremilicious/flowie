@@ -13,7 +13,7 @@ const ContentContainer = styled.div`
     padding-right: 5rem;
   }
   .title {
-    font-size: 7vh;
+    font-size: 6vh;
     line-height: 120%;
   }
   .sub-title {
@@ -39,8 +39,8 @@ const ContentContainer = styled.div`
   .input-box {
     border-radius: 4vh 0 0 4vh;
     border: none;
-    padding: calc(0.7vh - 0.3px) 4vh;
-    font-size: 3.5vh;
+    padding: calc(0.7vh - 0.3px) 4vh calc(0.7vh - 0.3px) 2vh;
+    font-size: 3vh;
     background: #fafafa;
     border: 0.3px solid #d8d8d8;
     outline: none;
@@ -50,7 +50,7 @@ const ContentContainer = styled.div`
     background-image: linear-gradient(to right, rgb(74, 175, 255), rgb(20, 135, 226));
     border: none;
     color: white;
-    padding: 0.7vh 3vh;
+    padding: 1.25vh 3vh;
     font-size: 3.5vh;
     border-radius: 0 4vh 4vh 0;
     outline: none;
@@ -58,6 +58,7 @@ const ContentContainer = styled.div`
     align-items: center;
     cursor: pointer;
     z-index: 1;
+    height: 100%;
   }
   .art-pic {
     height: 95vh;
@@ -101,7 +102,7 @@ export default function Content() {
                 disabled={username.length > 0 ? false : true}
               >
                 <FaSignInAlt />
-                <span className="ml-2">Login</span>
+                {/* <span className="ml-2">Login</span> */}
               </button>
             </form>
           </div>
