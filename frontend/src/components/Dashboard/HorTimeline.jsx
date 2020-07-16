@@ -10,6 +10,7 @@ import {
   getDates,
   updateIndex,
   getCommits,
+  deleteProject,
 } from "../../redux/actions/dataActions";
 
 const TimeLineContainer = styled.div`
@@ -116,6 +117,17 @@ export class HorTimeline extends Component {
 
     const { projects, projectsData, user, commits } = this.props;
 
+    const handleDelete = (project, projects) => {
+      this.props.deleteProject(project, projects);
+      let updatedProjects = this.props.projects;
+      if (updatedProjects.includes(project)) {
+        updatedProjects = updatedProjects.filter((t) => t != project);
+      }
+      console.log("SEE THIS!!!", updatedProjects);
+      this.props.getProjects(updatedProjects);
+      this.props.getCommits(updatedProjects);
+    };
+
     let dates = [];
     projectsData.forEach((project) => {
       project.data.forEach((subdata) => {
@@ -169,7 +181,13 @@ export class HorTimeline extends Component {
                   return (
                     <li className="list-group-item d-flex">
                       {project}
-                      <span className="text-danger" style={{ marginLeft: "auto" }}>
+                      <span
+                        className="text-danger"
+                        style={{ marginLeft: "auto" }}
+                        onClick={() => {
+                          handleDelete(project, projects);
+                        }}
+                      >
                         <FaTimes />
                       </span>
                     </li>
@@ -241,6 +259,7 @@ const mapDispatchToProps = {
   getDates,
   updateIndex,
   getCommits,
+  deleteProject,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(HorTimeline);

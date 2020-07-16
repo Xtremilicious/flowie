@@ -7,6 +7,7 @@ import {
   GET_COMMITS,
   SET_NOTES,
   GET_NOTES,
+  DELETE_PROJECT,
 } from "../types";
 
 const initialState = {
@@ -60,6 +61,11 @@ export default function (state = initialState, action) {
       return {
         ...state,
         notes: action.payload,
+      };
+    case DELETE_PROJECT:
+      return {
+        ...state,
+        projects: action.payload,
       };
 
     default:

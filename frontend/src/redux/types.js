@@ -6,3 +6,4 @@ export const UPDATE_INDEX = "UPDATE_INDEX";
 export const GET_COMMITS = "GET_COMMITS";
 export const GET_NOTES = "GET_NOTES";
 export const SET_NOTES = "SET_NOTES";
+export const DELETE_PROJECT = "DELETE_PROJECT";
