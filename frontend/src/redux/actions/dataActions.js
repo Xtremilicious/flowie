@@ -40,7 +40,7 @@ export const getProjects = (projects) => (dispatch) => {
         data.push(res);
         res.data.forEach((r) => {
           if (r.comments_url) {
-            axios.get(r.comments_url).then((comments_response) => {
+            axios.get(r.comments_url, config).then((comments_response) => {
               r.reviewer_comments = comments_response;
             });
           }
