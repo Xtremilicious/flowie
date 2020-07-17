@@ -12,11 +12,11 @@ import {
 import axios from "axios";
 
 const config = {
-  headers: { Authorization: "Token 57e7bb071317637b6d6385679a086faf18c94cd7" },
+  headers: {"Authorization": "Token 64599d2440dba6781fde2f4159d9fd4d7e6d3e99"},
 };
 
 export const getUserData = (user) => (dispatch) => {
-  axios.get(`https://api.github.com/users/${user}`).then((res) => {
+  axios.get(`https://api.github.com/users/${user}`, config).then((res) => {
     dispatch({
       type: GET_USER,
       payload: res,
@@ -29,11 +29,11 @@ export const getProjects = (projects) => (dispatch) => {
   let promises = [];
   projects.forEach((project) => {
     promises.push(
-      axios.get(`https://api.github.com/repos/${project}/issues?state=all`).then((res) => {
+      axios.get(`https://api.github.com/repos/${project}/issues?state=all`, config).then((res) => {
         data.push(res);
         res.data.forEach((r) => {
           if (r.comments_url) {
-            axios.get(r.comments_url).then((comments_response) => {
+            axios.get(r.comments_url, config).then((comments_response) => {
               r.reviewer_comments = comments_response;
             });
           }
@@ -47,7 +47,7 @@ export const getProjects = (projects) => (dispatch) => {
                 let match = matches[matchIndex];
                 let matched = match[1] === undefined ? match[2] : match[1];
                 axios
-                  .get(`https://api.github.com/repos/${project}/issues/${matched}`)
+                  .get(`https://api.github.com/repos/${project}/issues/${matched}`, config)
                   .then((linked_issue_response) => {
                     console.log(linked_issue_response);
                     r.linked_issues.push(linked_issue_response);
@@ -73,7 +73,7 @@ export const getCommits = (projects) => (dispatch) => {
   let promises = [];
   projects.forEach((project) => {
     promises.push(
-      axios.get(`https://api.github.com/repos/${project}/commits`).then((res) => {
+      axios.get(`https://api.github.com/repos/${project}/commits`, config).then((res) => {
         data.push(res);
       })
     );
