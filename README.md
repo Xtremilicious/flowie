@@ -54,6 +54,18 @@ docker-compose -f docker-compose.test.yml up --exit-code-from app
   ```
   python backend/manage.py runserver
   ```
+
+### React
+#### Install ```npm``` modules
+```
+npm install package.json
+```
+
+#### Run development server locally
+```
+npm start
+```
+You can visit development server at localhost:3000 *(default)*
   
 ## Technology Stack
  **Django**: The web framework for perfectionists with deadlines.
