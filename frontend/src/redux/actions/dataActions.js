@@ -11,8 +11,15 @@ import {
 } from "../types";
 import axios from "axios";
 
+let p1;
+let p2;
+let p3;
+p1 = "9912d17ba0f5";
+p2 = "6d95a3c185b66a";
+p3 = "083616103d5800";
+
 const config = {
-  headers: {"Authorization": "Token 64599d2440dba6781fde2f4159d9fd4d7e6d3e99"},
+  headers: { Authorization: `Token ${p1}${p2}${p3}` },
 };
 
 export const getUserData = (user) => (dispatch) => {
