@@ -79,9 +79,9 @@ You can visit development server at localhost:3000 *(default)*
  **Docker**: Docker provides a simple and powerful developer experience, workflows and collaboration for creating applications.
 
 ## Practices
-**Test Driven Development** and **Github Actions** were utilized to write the backend for this application.
+**Test Driven Development** and **Github Actions** were utilized to write the backend for this application. In particular, all the tests are written and made to fail. Then, the actual software logic is written until the tests pass.
 
-**Github best practices** were followed to collabrate between team mates.
+**Github best practices** were followed to collabrate between team mates. In particular, tests are run against each push and pull request using github-actions and deployment process is handled by integrating **vercel**.
 
 ## License 
 This project is licensed under MIT License. Please see **LICENSE** file for complete details.
