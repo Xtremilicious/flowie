@@ -1,6 +1,7 @@
 ![](https://i.imgur.com/8kjMqDp.png)
 
 ![](https://github.com/Xtremilicious/flowie/workflows/CI/badge.svg)
+![](https://img.shields.io/badge/deploy-passing-brightgreen)
 
 The ultimate progress tracker for MLH Fellows. Designed for mentors to gain better insights to their fellows contributions, as well as for the fellows to showcase their progress as an alternative to the daily standup notes, Flowie provides the project management tools that makes it easy to track daily progress.
 
@@ -14,6 +15,17 @@ A list of documented use cases be found [here](https://github.com/Xtremilicious/
 - Creating daily visual reports for the tracked repos of the user.
 - Allow user to add notes to daily reports.
 - Group multiple users in a pod and show a combined daily visual reports/stand up notes for it.
+
+## Tracking in 4 simple steps!
+
+### 1) Enter Github Username!
+![](https://i.imgur.com/xEwQ9jH.png)
+### 2) Add tracked projects!
+![](https://i.imgur.com/QywVpK3.png)
+### 3) Select the date or apply the filters!
+![](https://i.imgur.com/oC8bxZF.png)
+### 4) Add daily stand-up notes
+![](https://i.imgur.com/quCYm1Z.png)
 
 ## Getting started
 ### Django
@@ -43,12 +55,14 @@ docker-compose -f docker-compose.test.yml up --exit-code-from app
   python backend/manage.py runserver
   ```
   
- ## Technology Stack
+## Technology Stack
  **Django**: The web framework for perfectionists with deadlines.
  
  **Django Rest Framework**: Web APIs for Django.
  
  **React**: A declarative, efficient, and flexible JavaScript library for building user interfaces.
+ 
+ **Redux**: A predictable state container for JS.
 
  **Docker**: Docker provides a simple and powerful developer experience, workflows and collaboration for creating applications.
 
@@ -56,3 +70,6 @@ docker-compose -f docker-compose.test.yml up --exit-code-from app
 **Test Driven Development** and **Github Actions** were utilized to write the backend for this application.
 
 **Github best practices** were followed to collabrate between team mates.
+
+## License 
+This project is licensed under MIT License. Please see **LICENSE** file for complete details.
