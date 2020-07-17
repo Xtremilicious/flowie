@@ -12,7 +12,7 @@ import {
 
 const initialState = {
   user: null,
-  projects: ["MLH-Fellowship/react-jsonschema-form"],
+  projects: ["JuliaPlots/PLots.jl"],
   projectsData: [],
   dates: [],
   commits: [],
